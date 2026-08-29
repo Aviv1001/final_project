@@ -43,8 +43,12 @@ spec:
           # Already pulled before the demo, so the classroom network is not in the way.
           imagePullPolicy: IfNotPresent
           env:
+            # Terraform picks the bucket name, so install.sh puts it here.
             - name: BUCKET
-              value: aviv-lecture-417518835911
+              valueFrom:
+                configMapKeyRef:
+                  name: lecture-config
+                  key: BUCKET
             - name: AWS_REGION
               value: eu-central-1
             - name: MODEL_ID
