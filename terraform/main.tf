@@ -27,13 +27,6 @@ resource "aws_s3_bucket_public_access_block" "lectures" {
   restrict_public_buckets = true
 }
 
-# S3 has no folders. Four empty objects, so the console shows the layout.
-resource "aws_s3_object" "folders" {
-  for_each = toset(["inbox/", "text/", "done/", "failed/"])
-  bucket   = aws_s3_bucket.lectures.id
-  key      = each.value
-}
-
 resource "aws_iam_user" "worker" {
   name          = "lecture-worker"
   force_destroy = true
