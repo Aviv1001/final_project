@@ -1,0 +1,14 @@
+__pycache__/
+*.py[cod]
+
+# terraform state holds the worker's secret key
+.terraform/
+*.tfstate
+*.tfstate.*
+*.tfvars
+
+# recordings and generated pages are not source
+*.wav
+*.mp3
+index.html
+.render.lock
