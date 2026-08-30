@@ -40,7 +40,6 @@ spec:
       containers:
         - name: worker
           image: ghcr.io/aviv1001/lecture-worker:v1
-          # Already pulled before the demo, so the classroom network is not in the way.
           imagePullPolicy: IfNotPresent
           env:
             # Terraform picks the bucket name, so install.sh puts it here.

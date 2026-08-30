@@ -16,7 +16,7 @@ body { font-family: system-ui, sans-serif; max-width: 50rem;
 summary { font-size: 1.2rem; padding: 0.6rem 0; cursor: pointer; }
 details { border-bottom: 1px solid #ccc; }
 .summary { background: #f4f6fa; padding: 0.8rem; white-space: pre-wrap; }
-.transcript { white-space: pre-wrap; color: #333; }
+.transcript { white-space: pre-wrap; }
 </style></head><body>
 <h1>Lecture library</h1>
 """
