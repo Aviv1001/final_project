@@ -17,6 +17,7 @@ jobs:
     steps:
       - uses: actions/checkout@v7
       - run: shellcheck ./*.sh
+      - run: python3 -m py_compile render.py
       - run: docker build -t "$IMAGE:v1" -t "$IMAGE:$GITHUB_SHA" .
       # A pull request stops after the build. Only main publishes.
       - if: github.ref == 'refs/heads/main'
