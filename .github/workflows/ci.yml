@@ -1,0 +1,26 @@
+name: ci
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+env:
+  IMAGE: ghcr.io/aviv1001/lecture-worker
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
+    steps:
+      - uses: actions/checkout@v7
+      - run: shellcheck ./*.sh
+      - run: docker build -t "$IMAGE:v1" -t "$IMAGE:$GITHUB_SHA" .
+      # A pull request stops after the build. Only main publishes.
+      - if: github.ref == 'refs/heads/main'
+        run: |
+          echo "${{ secrets.GITHUB_TOKEN }}" | docker login ghcr.io -u aviv1001 --password-stdin
+          docker push "$IMAGE:v1"
+          docker push "$IMAGE:$GITHUB_SHA"
