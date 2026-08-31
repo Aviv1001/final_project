@@ -64,7 +64,7 @@ while true; do
 
     # A transcript contains quotes and newlines, so jq builds the request.
     jq -n --rawfile t "$LIBRARY/$lecture/transcript.txt" \
-      '[{role: "user", content: [{text: ("Summarise this lecture for a student who missed it. Five short bullet points.\n\n" + $t)}]}]' \
+      '[{role: "user", content: [{text: ("Summarise this lecture for a student who missed it, in five short lines. Output only the summary.\n\n" + $t)}]}]' \
       > /tmp/prompt.json
 
     if aws bedrock-runtime converse --model-id "$MODEL_ID" \
