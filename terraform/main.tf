@@ -15,7 +15,7 @@ provider "aws" {
 data "aws_caller_identity" "me" {}
 
 resource "aws_s3_bucket" "lectures" {
-  bucket        = "aviv-lecture-${data.aws_caller_identity.me.account_id}"
+  bucket        = "lecture-${data.aws_caller_identity.me.account_id}"
   force_destroy = true
 }
 
