@@ -34,6 +34,8 @@ BUCKET=$(terraform -chdir=terraform output -raw bucket)
 aws s3 cp lecture.mp3 "s3://$BUCKET/inbox/2026-09-03-history-lecture.mp3"
 ```
 
+Or open the bucket in the S3 console and drag a file into `inbox/`. The worker watches the folder and does not care how the file got there.
+
 Give every upload a fresh name, starting with the date works well. Transcribe keeps a job name for 90 days, so a file you retry needs a new name. Names can use letters, digits, dots, dashes and underscores. Transcribe accepts mp3, m4a, mp4, wav and more.
 
 Open http://localhost:30080/ and wait. A short clip appears in about a minute.
