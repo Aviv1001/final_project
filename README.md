@@ -15,7 +15,7 @@ The idea in one sentence: AWS is the brain, k3s is the production floor. I buy t
 - Terraform
 - a Kubernetes cluster with kubectl pointing at it (I use k3s). It needs a default StorageClass, which k3s, kind and minikube all have already
 
-Everything is created in eu-central-1, and one AWS account holds one copy. With a cluster already running this takes 30 to 60 minutes. If summaries do not appear, enable the Amazon Nova models once in the Bedrock console.
+Everything is created in eu-central-1, and one AWS account holds one copy. With a cluster already running this takes 30 to 60 minutes. If summaries do not appear, enable the Amazon Nova models once in the Bedrock console. Linux or macOS, the scripts are POSIX sh. On Windows run it inside WSL.
 
 ## How to run it
 
@@ -75,6 +75,14 @@ Measured, not estimated. Transcribe is $0.006 per minute, so a 90 minute lecture
 ## CI
 
 Every pull request builds the image and checks the scripts. A merge to main also publishes the image to ghcr, tagged `v1` and with the commit hash. The cluster pulls the published image, so nothing is built on your machine.
+
+## If the page stops answering
+
+On k3s the node reads its address once, when k3s starts, and never again. Move your laptop to another network and the cluster keeps the old one, so the page goes quiet and the worker cannot reach AWS. Restart k3s and it picks up the new address:
+
+```
+sudo systemctl restart k3s
+```
 
 ## Removing it
 
