@@ -13,9 +13,9 @@ The idea in one sentence: AWS is the brain, k3s is the production floor. I buy t
 
 - an AWS account with the CLI configured (`aws configure`), with rights to create an S3 bucket and an IAM user
 - Terraform
-- a Kubernetes cluster with kubectl pointing at it (I use k3s)
+- a Kubernetes cluster with kubectl pointing at it (I use k3s). It needs a default StorageClass, which k3s, kind and minikube all have already
 
-With a cluster already running this takes 30 to 60 minutes. If summaries do not appear, enable the Amazon Nova models once in the Bedrock console.
+Everything is created in eu-central-1, and one AWS account holds one copy. With a cluster already running this takes 30 to 60 minutes. If summaries do not appear, enable the Amazon Nova models once in the Bedrock console.
 
 ## How to run it
 
@@ -34,9 +34,15 @@ BUCKET=$(terraform -chdir=terraform output -raw bucket)
 aws s3 cp lecture.mp3 "s3://$BUCKET/inbox/2026-09-03-history-lecture.mp3"
 ```
 
-Give every upload a fresh name, starting with the date works well. Names can use letters, digits, dots, dashes and underscores. Transcribe accepts mp3, m4a, mp4, wav and more.
+Give every upload a fresh name, starting with the date works well. Transcribe keeps a job name for 90 days, so a file you retry needs a new name. Names can use letters, digits, dots, dashes and underscores. Transcribe accepts mp3, m4a, mp4, wav and more.
 
 Open http://localhost:30080/ and wait. A short clip appears in about a minute.
+
+On k3s the node is your own machine, so that address just works. On kind or minikube it does not. Open a tunnel first, then use the same address:
+
+```
+kubectl -n lectures port-forward svc/web 30080:8080
+```
 
 ## How it works
 
