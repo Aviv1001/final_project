@@ -78,10 +78,11 @@ Every pull request builds the image and checks the scripts. A merge to main also
 
 ## If the page stops answering
 
-On k3s the node reads its address once, when k3s starts, and never again. Move your laptop to another network and the cluster keeps the old one, so the page goes quiet and the worker cannot reach AWS. Restart k3s and it picks up the new address:
+On k3s the node reads its address once, when k3s starts, and never again. Move your laptop to another network and the cluster keeps the old one, so the page goes quiet and the worker cannot reach AWS. Restart k3s and it picks up the new address. The cluster DNS keeps the old network's DNS servers too, and a k3s restart does not restart pods, so restart that as well:
 
 ```
 sudo systemctl restart k3s
+kubectl -n kube-system rollout restart deployment/coredns
 ```
 
 ## Removing it
